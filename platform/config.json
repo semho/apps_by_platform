@@ -4,5 +4,8 @@
   },
   "main": {
     "message": "Hello from config"
+  },
+  "files": {
+    "path": "placeholder/files"
   }
 }
