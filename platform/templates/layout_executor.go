@@ -8,14 +8,18 @@ import (
 
 type LayoutTemplateProcessor struct{}
 
-func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer,
-	name string, data any) (err error) {
+var emptyFunc = func(handlerName, methodName string, args ...any) any { return "" }
+
+func (proc *LayoutTemplateProcessor) ExecTemplateWithFunc(writer io.Writer,
+	name string, data any, handlerFunc InvokeHandlerFunc) (err error) {
+
 	var sb strings.Builder
 	layoutName := ""
 	localTemplates := getTemplates()
 	localTemplates.Funcs(map[string]any{
-		"body":   insertBodyWrapper(&sb),
-		"layout": setLayoutWrapper(&layoutName),
+		"body":    insertBodyWrapper(&sb),
+		"layout":  setLayoutWrapper(&layoutName),
+		"handler": handlerFunc,
 	})
 	err = localTemplates.ExecuteTemplate(&sb, name, data)
 	if layoutName != "" {
@@ -24,6 +28,11 @@ func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer,
 		io.WriteString(writer, sb.String())
 	}
 	return
+}
+
+func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer,
+	name string, data any) (err error) {
+	return proc.ExecTemplateWithFunc(writer, name, data, emptyFunc)
 }
 
 var getTemplates func() (t *template.Template)
