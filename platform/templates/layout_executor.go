@@ -9,11 +9,11 @@ import (
 type LayoutTemplateProcessor struct{}
 
 func (proc *LayoutTemplateProcessor) ExecTemplate(writer io.Writer,
-	name string, data interface{}) (err error) {
+	name string, data any) (err error) {
 	var sb strings.Builder
 	layoutName := ""
 	localTemplates := getTemplates()
-	localTemplates.Funcs(map[string]interface{}{
+	localTemplates.Funcs(map[string]any{
 		"body":   insertBodyWrapper(&sb),
 		"layout": setLayoutWrapper(&layoutName),
 	})
