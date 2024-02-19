@@ -52,7 +52,11 @@ func createServiceDependentFunction(component any, nextFunc RequestPipeline) Req
 }
 
 func (pl RequestPipeline) ProcessRequest(req *http.Request, resp http.ResponseWriter) error {
-	ctx := ComponentContext{Request: req, ResponseWriter: resp}
+	deferredWriter := &DeferredResponseWriter{ResponseWriter: resp}
+	ctx := ComponentContext{Request: req, ResponseWriter: deferredWriter}
 	pl(&ctx)
+	if ctx.error == nil {
+		deferredWriter.FlushData()
+	}
 	return ctx.error
 }
