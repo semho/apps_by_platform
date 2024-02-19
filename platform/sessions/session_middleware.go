@@ -18,7 +18,7 @@ func (sc *SessionComponent) Init() {
 	if !found {
 		panic("Session key not found in configuration")
 	}
-	if sc.GetBoolDefault("session:cyclekey", true) {
+	if sc.GetBoolDefault("sessions:cyclekey", true) {
 		cookiekey += time.Now().String()
 	}
 	sc.store = gorilla.NewCookieStore([]byte(cookiekey))
