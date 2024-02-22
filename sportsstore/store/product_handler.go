@@ -21,6 +21,7 @@ type ProductTemplateContext struct {
 	PageNumbers      []int
 	PageUrlFunc      func(int) string
 	SelectedCategory int
+	AddToCartUrl     string
 }
 
 func (handler ProductHandler) GetProducts(category, page int) actionresults.ActionResult {
@@ -34,7 +35,16 @@ func (handler ProductHandler) GetProducts(category, page int) actionresults.Acti
 			PageNumbers:      handler.generatePageNumbers(pageCount),
 			PageUrlFunc:      handler.createPageUrlFunction(category),
 			SelectedCategory: category,
+			AddToCartUrl:     mustGenerateUrl(handler.URLGenerator, CartHandler.PostAddToCart),
 		})
+}
+
+func mustGenerateUrl(generator handling.URLGenerator, target any) string {
+	url, err := generator.GenerateUrl(target)
+	if err != nil {
+		panic(err)
+	}
+	return url
 }
 
 func (handler ProductHandler) generatePageNumbers(pageCount int) []int {
