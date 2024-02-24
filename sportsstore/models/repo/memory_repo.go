@@ -2,7 +2,6 @@ package repo
 
 import (
 	"math"
-	"platform/services"
 	"sportsstore/models"
 )
 
@@ -11,13 +10,13 @@ type MemoryRepo struct {
 	categories []models.Category
 }
 
-func RegisterMemoryRepoService() {
-	services.AddSingleton(func() models.Repository {
-		repo := &MemoryRepo{}
-		repo.Seed()
-		return repo
-	})
-}
+//func RegisterMemoryRepoService() {
+//	services.AddSingleton(func() models.Repository {
+//		repo := &MemoryRepo{}
+//		repo.Seed()
+//		return repo
+//	})
+//}
 
 func (repo *MemoryRepo) GetProduct(id int) models.Product {
 	for _, p := range repo.products {
