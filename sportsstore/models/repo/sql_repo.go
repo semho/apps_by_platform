@@ -31,6 +31,7 @@ type SqlCommands struct {
 	GetOrdersLines,
 	SaveOrder,
 	SaveOrderLine,
+	UpdateOrder,
 	SaveProduct,
 	UpdateProduct,
 	SaveCategory,

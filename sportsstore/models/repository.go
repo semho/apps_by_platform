@@ -11,5 +11,7 @@ type Repository interface {
 	GetOrder(id int) Order
 	GetOrders() []Order
 	SaveOrder(*Order)
+	SetOrderShipped(*Order)
 	Seed()
+	Init()
 }

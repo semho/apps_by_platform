@@ -25,7 +25,7 @@ func (repo *SqlRepository) GetOrders() []models.Order {
 	for lineRows.Next() {
 		var orderID int
 		ps := models.ProductSelection{Product: models.Product{Category: &models.Category{}}}
-		err = lineRows.Scan(&orderID, &ps.Quantity, &ps.Product.ID, &orderID, &ps.Quantity, &ps.Product.ID,
+		err = lineRows.Scan(&orderID, &ps.Quantity, &ps.Product.ID, &ps.Product.Name, &ps.Product.Description,
 			&ps.Product.Price, &ps.Product.Category.ID, &ps.Product.Category.CategoryName)
 		if err != nil {
 			repo.Logger.Panicf("Cannot scan order line data: %v", err.Error())
